@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2020 rel. 2 (x64) (http://www.altova.com) von Harald Vollmer (Schukat electronic Vertriebs GmbH) bearbeitet -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:DefaultNamespace" xmlns:intf="urn:DefaultNamespace" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:DefaultNamespace">
+	<message name="SEARCHResponse">
+		<part name="SEARCHReturn" type="xsd:anyType"/>
+	</message>
+	<message name="SEARCHRequest">
+		<part name="APIKEY" type="xsd:string"/>
+		<part name="REQUEST" type="xsd:string"/>
+		<part name="OUTPUTFORMAT" type="xsd:string"/>
+		<part name="LANGUAGE" type="xsd:string"/>
+	</message>
+	<portType name="hwProvider">
+		<operation name="SEARCH" parameterOrder="APIKEY REQUEST OUTPUTFORMAT LANGUAGE">
+			<input name="SEARCHRequest" message="impl:SEARCHRequest"/>
+			<output name="SEARCHResponse" message="impl:SEARCHResponse"/>
+		</operation>
+	</portType>
+	<binding name="DominoSoapBinding" type="impl:hwProvider">
+		<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="SEARCH">
+			<wsdlsoap:operation soapAction="SEARCH"/>
+			<input name="SEARCHRequest">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:DefaultNamespace"/>
+			</input>
+			<output name="SEARCHResponse">
+				<wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:DefaultNamespace"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="hwProviderService">
+		<port name="Domino" binding="impl:DominoSoapBinding">
+			<wsdlsoap:address location="https://api.schukat.com/schukat/schukat_ws.nsf/schukat-ws?OpenWebService"/>
+		</port>
+	</service>
+</definitions>
